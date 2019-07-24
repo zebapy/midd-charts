@@ -1,0 +1,83 @@
+.hidden line,
+.hidden path {
+  display: none;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+/* voronoi */
+g.polygons path {
+  stroke: green;
+  stroke-width: 1px;
+  fill: none;
+}
+
+.middchart {
+  font-family: sans-serif;
+}
+
+.middchart .domain {
+  stroke-width: 2px;
+  stroke: #979797;
+  position: relative;
+  z-index: 3;
+}
+
+.middchart .tick line {
+  stroke: #dedede;
+  position: relative;
+  z-index: 1;
+}
+
+.legend.y {
+  /* font-family: serif; */
+}
+
+div {
+  margin-bottom: 4rem;
+}
+
+svg text {
+  font-size: 14px;
+}
+
+svg {
+  overflow: visible;
+}
+
+/* 
+#midd-barchart {
+  padding-top: 56.25%;
+  height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+#midd-barchart svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+} */
+
+.chart-demo {
+  /* height: 500px;
+  min-width: 300px;
+  max-width: 800px; */
+}
+
+.chart-wrapper {
+  position: relative;
+  padding-top: 56.25%; /* 16:9 */
+  overflow: hidden;
+  height: 0;
+}
+
+.chart-wrapper > svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
