@@ -81,7 +81,7 @@ export class BaseChart {
   }
 
   getFillColor(label) {
-    this.colorScale(label);
+    return this.colorScale(label);
   }
 
   getBBox(selector: any) {
@@ -115,9 +115,9 @@ export class BaseChart {
     this.innerWrap = this.svg
       .append('g')
       .classed('inner-wrap', true)
-      .attr('transform', `translate(${left},${top})`)
-      .style('width', '100%')
-      .style('height', '100%');
+      .attr('transform', `translate(${left},${top})`);
+    // .style('width', '100%')
+    // .style('height', '100%');
 
     return this.svg;
   }
@@ -139,9 +139,18 @@ export class BaseChart {
   getChartSize(container = this.container) {
     const node = container.node();
 
+    const { margin } = this.options;
+
+    const maxWidth = 640;
+    const minHeight = 400;
+    const width = node.clientWidth <= maxWidth ? node.clientWidth : maxWidth;
+    const height = minHeight; // set a fixed height
+
     return {
-      width: node.clientWidth,
-      height: node.clientHeight
+      width,
+      height,
+      innerWidth: width - margin.left - margin.right,
+      innerHeight: height - margin.top - margin.bottom
     };
   }
 
@@ -201,6 +210,7 @@ export class BaseChart {
 
   resizeChart() {
     console.warn('You should implement your own `resizeChart()` function.');
+    this.positionLegend();
   }
 
   resizeWhenContainerChange() {
@@ -213,18 +223,11 @@ export class BaseChart {
           Math.abs(containerWidth - this.holder.clientWidth) > 1 ||
           Math.abs(containerHeight - this.holder.clientHeight) > 1
         ) {
-          containerWidth = this.holder.clientWidth;
-          containerHeight = this.holder.clientHeight;
-
-          // selectAll('.legend-tooltip').style('display', 'none');
-
-          // this.hideTooltip();
-
           this.resizeChart();
         }
       }
     });
 
-    resizeObserver.observe(this.holder);
+    // resizeObserver.observe(this.holder);
   }
 }

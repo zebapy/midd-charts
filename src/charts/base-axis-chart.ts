@@ -92,28 +92,14 @@ export class BaseAxisChart extends BaseChart {
   }
 
   setYScale() {
-    const chartSize = this.getChartSize();
-    const height = chartSize.height;
-
-    this.svg
-      .select('.x.axis')
-      .node()
-      .getBBox().height;
+    const { height } = this.getChartSize();
 
     const yMin = this.getYMin();
     const yMax = this.getYMax();
 
-    // if (yScale) {
-    // 	this.y = yScale;
-    // } else {
-    this.y = scaleLinear().range([height, 0]);
-    this.y.domain([Math.min(yMin, 0), yMax]);
-    // }
-
-    // if (scales.y2 && scales.y2.ticks.max) {
-    // 	this.y2 = scaleLinear().rangeRound([height, 0]);
-    // 	this.y2.domain([scales.y2.ticks.min, scales.y2.ticks.max]);
-    // }
+    this.y = scaleLinear()
+      .range([height, 0])
+      .domain([Math.min(yMin, 0), yMax]);
   }
 
   setXScale() {
@@ -124,8 +110,7 @@ export class BaseAxisChart extends BaseChart {
 
     this.x = scaleBand()
       .rangeRound([0, width])
-      .padding(6); // swap with option padding
-    this.x.domain(this.displayData.labels);
+      .domain(this.displayData.labels);
   }
 
   getYMin(): number {
@@ -158,7 +143,7 @@ export class BaseAxisChart extends BaseChart {
   setXAxis() {
     const xAxis = axisBottom(this.x).tickFormat(this.options.xTickFormat);
 
-    const { height } = this.getChartSize();
+    const { innerHeight, height } = this.getChartSize();
 
     let xAxisRef = this.svg.select('g.x.axis');
 
@@ -166,9 +151,7 @@ export class BaseAxisChart extends BaseChart {
     if (xAxisRef.nodes().length > 0) {
       xAxisRef = this.svg
         .select('g.x.axis')
-        // .transition(t)
         .attr('transform', `translate(0, ${height})`)
-        // Casting to any because d3 does not offer appropriate typings for the .call() function
         .call(xAxis);
     } else {
       xAxisRef = this.innerWrap
@@ -179,19 +162,7 @@ export class BaseAxisChart extends BaseChart {
       xAxisRef.call(xAxis);
     }
 
-    // this.innerWrap
-    //   .append('g')
-    //   .attr('class', 'axis x')
-    //   .attr('transform', `translate(0, ${height})`)
-    //   .call(xAxis);
-
-    const yHeight =
-      this.getChartSize().height -
-      this.svg
-        .select('.x.axis')
-        .node()
-        .getBBox().height;
-    xAxisRef.attr('transform', `translate(0, ${yHeight})`);
+    xAxisRef.attr('transform', `translate(0, ${height})`);
   }
 
   setYAxis() {
@@ -236,7 +207,7 @@ export class BaseAxisChart extends BaseChart {
     console.warn('You should implement your own `draw()` function.');
 
     // Reposition the legend
-    this.positionLegend();
+    // this.positionLegend();
   }
 
   draw() {

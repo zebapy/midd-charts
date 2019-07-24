@@ -11,7 +11,7 @@ export interface MarginOption {
 }
 
 export interface ChartData {
-  labels: Array<string | number>;
+  labels: Array<string>;
   datasets: Array<DataSet>;
 }
 
@@ -51,8 +51,8 @@ export const colors = Object.values(colorMap);
 const defaultMargin = {
   top: 32,
   right: 32,
-  left: 48,
-  bottom: 48
+  left: 32,
+  bottom: 32
 };
 
 const baseOptions: BaseChartOptions = {
