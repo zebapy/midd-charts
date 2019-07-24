@@ -6,29 +6,6 @@ import { BaseAxisChart } from './base-axis-chart';
 // returns the configured max width or the calculated bandwidth
 // whichever is lower
 // defaults to the calculated bandwidth if no maxWidth is defined
-const getMaxBarWidth = (maxWidth, currentBandWidth) => {
-  if (!maxWidth) {
-    return currentBandWidth;
-  }
-  if (currentBandWidth <= maxWidth) {
-    return currentBandWidth;
-  }
-  return maxWidth;
-};
-
-const isWidthConstrained = (
-  maxWidth: number,
-  currentBandWidth: number
-): boolean => {
-  if (!maxWidth) {
-    return false;
-  }
-  if (currentBandWidth <= maxWidth) {
-    return false;
-  }
-  return true;
-};
-
 export class BarChart extends BaseAxisChart {
   // constructor(selector, options) {
   // super(selector, options);
@@ -36,14 +13,6 @@ export class BarChart extends BaseAxisChart {
   // }
 
   x1: ScaleBand<any>;
-
-  maxBarWidth: number;
-
-  constructor(selector, options) {
-    super(selector, options);
-
-    this.maxBarWidth = 32;
-  }
 
   draw() {
     // this.innerWrap.style('width', '100%').style('height', '100%');
@@ -72,7 +41,7 @@ export class BarChart extends BaseAxisChart {
       .enter()
       .append('rect')
       .classed('bar', true)
-      .attr('x', this.getBarX.bind(this))
+      .attr('x', d => this.getBarPosition(d, this.x, this.x1))
       .attr('y', d => this.y(Math.max(0, d.value)))
       .attr('width', this.x1.bandwidth())
       .attr('height', d => Math.abs(height - this.y(d.value)))
@@ -91,8 +60,11 @@ export class BarChart extends BaseAxisChart {
 
     // create the 2nd scale used for grouped bars
     this.x1 = scaleBand()
-      .domain(this.displayData.datasets.map(dataset => dataset.label))
-      .rangeRound([0, getMaxBarWidth(this.maxBarWidth, this.x.bandwidth())]);
+      .domain(this.options.keys)
+      .rangeRound([
+        0,
+        this.getMaxBarWidth(this.maxBarWidth, this.x.bandwidth())
+      ]);
 
     // if it's a grouped bar, use additoinal padding so the bars don't group up
     if (this.displayData.datasets.length > 1) {
@@ -102,17 +74,10 @@ export class BarChart extends BaseAxisChart {
 
   resizeChart() {
     console.log('resize');
-    const actualChartSize: any = this.getChartSize(this.container);
-    const dimensionToUseForScale = Math.min(
-      actualChartSize.width,
-      actualChartSize.height
-    );
+    const { height, width } = this.getChartSize();
 
     // Resize the SVG
-    select(this.holder)
-      .select('svg')
-      .attr('width', `${dimensionToUseForScale}px`)
-      .attr('height', `${dimensionToUseForScale}px`);
+    this.svg.attr('width', width).attr('height', height);
 
     // this.updateXandYGrid(true);
 
@@ -126,29 +91,7 @@ export class BarChart extends BaseAxisChart {
 
     // Apply new data to the bars
     // const g = this.innerWrap.selectAll('g.bars g');
-    this.redrawBars();
 
     super.resizeChart();
-  }
-
-  getBarX(d) {
-    const max = this.maxBarWidth;
-
-    if (!isWidthConstrained(max, this.x.bandwidth())) {
-      return this.x1(d.datasetLabel);
-    }
-
-    return this.x.bandwidth() / 2 - max / 2;
-  }
-
-  redrawBars() {
-    const rect = this.innerWrap.selectAll('rect.bar');
-
-    // Update existing bars
-    rect
-      .attr('x', this.getBarX.bind(this))
-      .attr('y', d => this.y(Math.max(0, d.value)))
-      .attr('width', this.x1.bandwidth())
-      .attr('height', d => Math.abs(this.y(d.value) - this.y(0)));
   }
 }

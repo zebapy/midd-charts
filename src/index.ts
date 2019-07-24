@@ -8,37 +8,14 @@ import {
   PieChart
 } from './charts';
 
-/*
-charts have 3 data key variations depending on the outcome you want
-
-1. a normal bar chart with a single series
-
-data: [1,2,3,4,5]
-
-2. a series of groups
-
-data: [
-  [1,2,3], 
-  [1,2,3],
-  [2,5,3]
-]
-
-3. a series of groups with labels for a legend
-
-data: [
-  { label: 'group 1', data: [1,2,3] },
-  { label: 'group 2', data: [1,2,3] },
-  { label: 'group 3', data: [1,2,3] },
-]
-
-*/
+const random = (x = 10, max = 1000) => range(x).map(n => Math.random() * max);
 
 const barchart = new BarChart('#midd-barchart', {
   data: {
     datasets: [
       {
         label: 'dataset 1',
-        data: [41, 14, 4, 10, 4, 18, 2, 4, 1, 2]
+        data: random(10)
       }
     ],
     labels: [
@@ -54,8 +31,8 @@ const barchart = new BarChart('#midd-barchart', {
       'Other'
     ]
   },
-  yLabel: 'Percentage of people',
-  yTickFormat: tick => tick + '%'
+  yLabel: 'Percentage of people'
+  // yTickFormat: tick => tick + '%'
 });
 
 const groupbarchart = new BarChart('#midd-groupbarchart', {
@@ -63,13 +40,13 @@ const groupbarchart = new BarChart('#midd-groupbarchart', {
     datasets: [
       {
         label: 'lorem medium length',
-        data: range(4).map(x => Math.random() * 1000)
+        data: random(5)
       },
       {
         label: 'ipsum a longer legend title',
-        data: range(5).map(x => Math.random() * 1000)
+        data: random(5)
       },
-      { label: 'dolor', data: range(5).map(x => Math.random() * 1000) }
+      { label: 'dolor', data: random(5) }
     ],
     labels: [2012, 2014, 2016, 2018, 2020]
   },
@@ -77,23 +54,49 @@ const groupbarchart = new BarChart('#midd-groupbarchart', {
   xLabel: 'Years'
 });
 
-// const xbarchart = new HorizontalBarChart('#midd-xbarchart', {
-//   data: [41, 14, 4, 10, 4, 18, 2, 4, 1, 2],
-//   labels: [
-//     'Administration',
-//     'Advising / Counseling',
-//     'Analyst/Research',
-//     'Communications/Marketing/PR',
-//     'Management/Strategic Planning',
-//     'Operations/Project Management',
-//     'Sales / Account Management',
-//     'Teaching/Training',
-//     'Translation / Interpretation',
-//     'Other'
-//   ],
-//   yLabel: 'Department',
-//   xLabel: 'Percentage of people'
-// });
+const xbarchart = new HorizontalBarChart('#midd-xbarchart', {
+  data: {
+    datasets: [
+      {
+        data: [41, 14, 4, 10, 4, 18, 2, 4, 1, 2],
+        label: 'dataset 1'
+      }
+    ],
+    labels: [
+      'Administration',
+      'Advising / Counseling',
+      'Analyst/Research',
+      'Communications/Marketing/PR',
+      'Management/Strategic Planning',
+      'Operations/Project Management',
+      'Sales / Account Management',
+      'Teaching/Training',
+      'Translation / Interpretation',
+      'Other'
+    ]
+  },
+  yLabel: 'Department',
+  xLabel: 'Percentage of people'
+});
+
+const groupxbarchart = new HorizontalBarChart('#midd-xgroupbarchart', {
+  data: {
+    datasets: [
+      {
+        label: 'Digital Services',
+        data: random(5)
+      },
+      {
+        label: 'Print services',
+        data: random(5)
+      },
+      { label: 'News room', data: random(5) }
+    ],
+    labels: [2012, 2014, 2016, 2018, 2020]
+  },
+  yLabel: 'Years',
+  xLabel: 'Projects'
+});
 
 // const linechart = new LineChart('#midd-linechart', {
 //   data: range(5).map(x => Math.random() * 100),

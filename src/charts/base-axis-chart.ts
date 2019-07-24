@@ -7,15 +7,31 @@ import { BaseChart } from './base-chart';
 import * as Config from './config';
 import { AxisChartOptions } from './config';
 
+const isWidthConstrained = (
+  maxWidth: number,
+  currentBandWidth: number
+): boolean => {
+  if (!maxWidth) {
+    return false;
+  }
+  if (currentBandWidth <= maxWidth) {
+    return false;
+  }
+  return true;
+};
+
 export class BaseAxisChart extends BaseChart {
   x: ScaleBand<any>;
   x1: ScaleBand<any>;
   y: ScaleLinear<any, any>;
+  maxBarWidth: number;
 
   options: AxisChartOptions = Config.options.AXIS;
 
   constructor(selector: string | Element, options: AxisChartOptions) {
     super(selector, options);
+
+    this.maxBarWidth = 32;
 
     this.options = { ...Config.options.AXIS, ...options };
   }
@@ -24,8 +40,8 @@ export class BaseAxisChart extends BaseChart {
     super.setSVG();
 
     this.container.classed('chart-axis', true);
-    this.innerWrap.append('g').attr('class', 'x grid');
-    this.innerWrap.append('g').attr('class', 'y grid');
+    // this.innerWrap.append('g').attr('class', 'x grid');
+    // this.innerWrap.append('g').attr('class', 'y grid');
 
     return this.svg;
   }
@@ -39,8 +55,8 @@ export class BaseAxisChart extends BaseChart {
     this.setYScale();
     this.setYAxis();
 
-    // this.drawXLabel();
-    // this.drawYLabel();
+    this.drawXLabel();
+    this.drawYLabel();
 
     this.draw();
   }
@@ -62,6 +78,7 @@ export class BaseAxisChart extends BaseChart {
   drawXLabel() {
     const { xLabel, margin } = this.options;
     const { height, width } = this.getChartSize();
+
     if (xLabel) {
       this.innerWrap
         .append('text')
@@ -212,5 +229,25 @@ export class BaseAxisChart extends BaseChart {
 
   draw() {
     console.warn('You should implement your own `draw()` function.');
+  }
+
+  getBarPosition(d, scale, groupScale) {
+    const max = this.maxBarWidth;
+
+    if (!isWidthConstrained(max, scale.bandwidth())) {
+      return groupScale(d.datasetLabel);
+    }
+
+    return scale.bandwidth() / 2 - max / 2;
+  }
+
+  getMaxBarWidth(maxWidth, currentBandWidth) {
+    if (!maxWidth) {
+      return currentBandWidth;
+    }
+    if (currentBandWidth <= maxWidth) {
+      return currentBandWidth;
+    }
+    return maxWidth;
   }
 }

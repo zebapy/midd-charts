@@ -80,7 +80,7 @@ export class BaseChart {
     return { chartId, container };
   }
 
-  getFillColor(label) {
+  getFillColor(label: string): string {
     return this.colorScale(label);
   }
 
@@ -123,16 +123,6 @@ export class BaseChart {
   }
 
   getKeysFromData() {
-    if (!this.fixedDataLabels) {
-      this.fixedDataLabels = this.displayData.labels;
-    } else {
-      this.displayData.labels.forEach(element => {
-        if (this.fixedDataLabels.indexOf(element) === -1) {
-          this.fixedDataLabels.push(element);
-        }
-      });
-    }
-
     return this.displayData.datasets.map(set => set.label);
   }
 
