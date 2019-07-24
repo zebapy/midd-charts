@@ -3,6 +3,7 @@ import { range } from 'd3-array';
 import {
   BarChart,
   HorizontalBarChart,
+  ScatterChart,
   LineChart,
   HorizontalSingleBarChart,
   PieChart
@@ -98,9 +99,25 @@ const groupxbarchart = new HorizontalBarChart('#midd-xgroupbarchart', {
   xLabel: 'Projects'
 });
 
+const scatterchart = new ScatterChart('#midd-scatterchart', {
+  data: {
+    datasets: [
+      { label: 'dataset 1', data: range(5).map(x => Math.random() * 100) }
+    ],
+    labels: [2012, 2014, 2016, 2018, 2020]
+  },
+  // TODO: rename xLabel/yLabel
+  yLabel: 'Department',
+  xLabel: 'Years'
+});
+
 // const linechart = new LineChart('#midd-linechart', {
-//   data: range(5).map(x => Math.random() * 100),
-//   labels: [2012, 2014, 2016, 2018, 2020],
+//   data: {
+//     datasets: [
+//       { label: 'dataset 1', data: range(5).map(x => Math.random() * 100) }
+//     ],
+//     labels: [2012, 2014, 2016, 2018, 2020]
+//   },
 //   // TODO: rename xLabel/yLabel
 //   yLabel: 'Department',
 //   xLabel: 'Years'

@@ -80,8 +80,8 @@ export class BaseChart {
     return { chartId, container };
   }
 
-  getFillColor(label: string): string {
-    return this.colorScale(label);
+  getFillColor(d: string): string {
+    return this.colorScale(d);
   }
 
   getBBox(selector: any) {
