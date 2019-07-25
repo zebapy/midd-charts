@@ -37,7 +37,12 @@ export class BaseChart {
     this.colorScale = scaleOrdinal().range(this.options.colors);
 
     // layout/container
-    this.holder = findNode(selector);
+    const holder = findNode(selector);
+    if (!holder) {
+      console.warn(`No container found with selector of ${selector}`);
+    }
+
+    this.holder = holder;
 
     const { container } = this.setChartIDContainer();
     this.container = container;
