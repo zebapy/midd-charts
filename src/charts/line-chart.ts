@@ -27,6 +27,7 @@ export class LineChart extends ScatterChart {
       .attr('stroke', d => this.getFillColor(d.label))
       .datum(d => d.data)
       .attr('class', 'line')
+      .attr('fill', 'none')
       .attr('d', this.lineGenerator);
 
     super.draw();
