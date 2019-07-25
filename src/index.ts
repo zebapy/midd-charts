@@ -111,34 +111,44 @@ const scatterchart = new ScatterChart('#midd-scatterchart', {
   xLabel: 'Years'
 });
 
-// const linechart = new LineChart('#midd-linechart', {
-//   data: {
-//     datasets: [
-//       { label: 'dataset 1', data: range(5).map(x => Math.random() * 100) }
-//     ],
-//     labels: [2012, 2014, 2016, 2018, 2020]
-//   },
-//   // TODO: rename xLabel/yLabel
-//   yLabel: 'Department',
-//   xLabel: 'Years'
-// });
+const groupscatterchart = new ScatterChart('#midd-groupscatterchart', {
+  data: {
+    datasets: [
+      { label: 'lorem medium length', data: random(5) },
+      { label: 'ipsum a longer legend title', data: random(5) },
+      { label: 'dolor', data: random(5) }
+    ],
+    labels: [2012, 2014, 2016, 2018, 2020]
+  },
+  // TODO: rename xLabel/yLabel
+  yLabel: 'Department',
+  xLabel: 'Years'
+});
 
-// const multilinechart = new LineChart('#midd-multilinechart', {
-//   data: [
-//     {
-//       label: 'lorem medium length',
-//       data: range(4).map(x => Math.random() * 1000)
-//     },
-//     {
-//       label: 'ipsum a longer legend title',
-//       data: range(5).map(x => Math.random() * 1000)
-//     },
-//     { label: 'dolor', data: range(5).map(x => Math.random() * 1000) }
-//   ],
-//   labels: [2012, 2014, 2016, 2018, 2020],
-//   yLabel: 'Department',
-//   xLabel: 'Years'
-// });
+const linechart = new LineChart('#midd-linechart', {
+  data: {
+    datasets: [
+      { label: 'dataset 1', data: range(5).map(x => Math.random() * 100) }
+    ],
+    labels: [2012, 2014, 2016, 2018, 2020]
+  },
+  // TODO: rename xLabel/yLabel
+  yLabel: 'Department',
+  xLabel: 'Years'
+});
+
+const multilinechart = new LineChart('#midd-multilinechart', {
+  data: {
+    datasets: [
+      { label: 'lorem medium length', data: random(5) },
+      { label: 'ipsum a longer legend title', data: random(5) },
+      { label: 'dolor', data: random(5) }
+    ],
+    labels: [2012, 2014, 2016, 2018, 2020]
+  },
+  yLabel: 'Department',
+  xLabel: 'Years'
+});
 
 // // TODO: allow single number for data
 // const xsinglebar = new HorizontalSingleBarChart('#midd-xsinglebarchart', {

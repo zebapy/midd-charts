@@ -1,83 +1,34 @@
-import { select } from 'd3-selection';
-import {
-  scaleBand,
-  scaleLinear,
-  scalePoint,
-  scaleOrdinal,
-  scaleSequential
-} from 'd3-scale';
-import { axisBottom, axisLeft } from 'd3-axis';
-import { transition } from 'd3-transition';
-import { max, extent } from 'd3-array';
-import { line as d3line } from 'd3-shape';
+import { line, Line, curveBasis } from 'd3-shape';
 
-import { createBaseChart } from './base-chart';
+import { ScatterChart } from './scatter-chart';
 
-import { prepareData } from './utils';
+export class LineChart extends ScatterChart {
+  lineGenerator: Line<any>;
 
-class LineChart {
-  constructor(selector, options) {
-    const {
-      svg,
-      width,
-      height,
-      margin,
-      colors,
-      data,
-      labels,
-      colorScale
-    } = createBaseChart(selector, options);
+  draw() {
+    this.lineGenerator = line()
+      .x(
+        (d, i) =>
+          this.x(this.displayData.labels[i]) +
+          // split by step so we dont have to use scalePoint
+          this.x.step() / 2
+      )
+      .y((d: any) => this.y(d));
 
-    const x = scalePoint()
-      .domain(labels)
-      .rangeRound([0, width]);
-
-    const y = scaleLinear()
-      .domain([0, max(data, d => max(d))])
-      .rangeRound([height, 0]);
-
-    const line = d3line()
-      .x((d, i) => x(labels[i]))
-      .y(d => y(d));
-
-    function renderLine(series, index) {
-      const color = colorScale(index);
-
-      svg
-        .append('path')
-        .data([series])
-        .attr('fill', 'none')
-        .attr('stroke', color)
-        .attr('stroke-width', 1)
-        .attr('d', line);
-
-      svg
-        .selectAll('.dot')
-        .data(series)
-        .enter()
-        .append('circle')
-        .attr('class', `dot-${index}`)
-        .attr('fill', color)
-        .attr('cx', (d, i) => x(labels[i]))
-        .attr('cy', d => y(d))
-        .attr('r', 4);
-    }
-
-    data.forEach((series, i) => {
-      renderLine(series, i);
-    });
-
-    svg
+    const gLines = this.innerWrap
+      .selectAll('g.lines')
+      .data(this.displayData.datasets)
+      .enter()
       .append('g')
-      .classed('axis x', true)
-      .attr('transform', `translate(0,${height})`)
-      .call(axisBottom(x));
+      .classed('lines', true);
 
-    svg
-      .append('g')
-      .classed('axis y', true)
-      .call(axisLeft(y));
+    gLines
+      .append('path')
+      .attr('stroke', d => this.getFillColor(d.label))
+      .datum(d => d.data)
+      .attr('class', 'line')
+      .attr('d', this.lineGenerator);
+
+    super.draw();
   }
 }
-
-export default LineChart;

@@ -39,6 +39,6 @@ export class ScatterChart extends BaseAxisChart {
       .attr('cx', d => this.x(d.label) + this.x.step() / 2)
       .attr('cy', d => this.y(d.value))
       .attr('r', 4)
-      .attr('fill', d => this.getFillColor(d));
+      .attr('fill', d => this.getFillColor(d.datasetLabel));
   }
 }
