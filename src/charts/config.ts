@@ -1,3 +1,14 @@
+export enum ChartType {
+  BAR = 'bar',
+  HORIZONTALBAR = 'horizontalbar',
+  SINGELBAR = 'singlebar',
+  SCATTER = 'scatter',
+  LINE = 'line',
+  PIE = 'pie',
+  DONUT = 'donut'
+  // COMBO = 'combo'
+}
+
 export interface DataSet {
   label: string;
   data: Array<any>;
@@ -16,6 +27,7 @@ export interface ChartData {
 }
 
 export interface BaseChartOptions {
+  type?: ChartType;
   keys?: Array<string>;
   width?: number;
   height?: number;
@@ -33,6 +45,12 @@ export interface AxisChartOptions extends BaseChartOptions {
   xPadding?: Number;
   yPadding?: Number;
 }
+
+export interface ScatterChartOptions extends AxisChartOptions {}
+
+export interface SingleBarChartOptions extends BaseChartOptions {}
+
+export interface HorizontalBarChartOptions extends AxisChartOptions {}
 
 const colorMap = {
   navy: '#0d395f',

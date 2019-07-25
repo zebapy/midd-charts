@@ -1,14 +1,12 @@
 import { BaseAxisChart } from './base-axis-chart';
+import { ChartType, ScatterChartOptions } from './config';
 
 export class ScatterChart extends BaseAxisChart {
-  // options: ScatterChartOptions = Tools.merge({}, Configuration.options.SCATTER);
+  options: ScatterChartOptions;
 
-  // constructor(holder: Element, configs: ChartConfig<ScatterChartOptions>) { }
-
-  setXScale() {
-    super.setXScale();
-    // override BaseAxisChart padding so points aren't misaligned by a few pixels.
-    this.x.padding(0);
+  constructor(selector, options) {
+    super(selector, options);
+    this.options.type === ChartType.SCATTER;
   }
 
   addLabelsToDataPoints(d) {

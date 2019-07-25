@@ -2,15 +2,16 @@ import { select } from 'd3-selection';
 import { scaleBand, ScaleBand } from 'd3-scale';
 
 import { BaseAxisChart } from './base-axis-chart';
+import { ChartType } from './config';
 
 // returns the configured max width or the calculated bandwidth
 // whichever is lower
 // defaults to the calculated bandwidth if no maxWidth is defined
 export class BarChart extends BaseAxisChart {
-  // constructor(selector, options) {
-  // super(selector, options);
-  // const xSub = scaleBand().rangeRound([0, x.bandwidth()]);
-  // }
+  constructor(selector, options) {
+    super(selector, options);
+    this.options.type === ChartType.BAR;
+  }
 
   x1: ScaleBand<any>;
 

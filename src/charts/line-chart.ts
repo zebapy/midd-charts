@@ -1,9 +1,15 @@
 import { line, Line, curveBasis } from 'd3-shape';
 
 import { ScatterChart } from './scatter-chart';
+import { ChartType } from './config';
 
 export class LineChart extends ScatterChart {
   lineGenerator: Line<any>;
+
+  constructor(selector, options) {
+    super(selector, options);
+    this.options.type === ChartType.LINE;
+  }
 
   draw() {
     this.lineGenerator = line()

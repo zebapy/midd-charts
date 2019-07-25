@@ -1,12 +1,21 @@
 import { scaleBand, scaleLinear, ScaleBand, ScaleLinear } from 'd3-scale';
 
 import { BaseAxisChart } from './base-axis-chart';
+import { HorizontalBarChartOptions, ChartType } from './config';
 
 // TODO: auto set left margin based on yaxis label widths
 export class HorizontalBarChart extends BaseAxisChart {
   y: ScaleBand<string>;
   y1: ScaleBand<string>;
   x: ScaleLinear<any, any>;
+
+  options: HorizontalBarChartOptions;
+
+  constructor(selector, options) {
+    super(selector, options);
+
+    this.options.type = ChartType.HORIZONTALBAR;
+  }
 
   setXScale() {
     const { width } = this.getChartSize();
