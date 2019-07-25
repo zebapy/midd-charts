@@ -97,13 +97,18 @@ export class BaseChart {
   }
 
   setData(data: any) {
-    this.displayData = data;
+    this.displayData = this.processData(data);
 
     this.options.keys = this.getKeysFromData();
 
     this.initialDraw();
 
     // this.drawLegend();
+  }
+
+  // set root process data function so pie/single bar chart can change the data structure
+  processData(data: ChartData): ChartData {
+    return data;
   }
 
   setSVG() {
@@ -137,7 +142,8 @@ export class BaseChart {
     const { margin } = this.options;
 
     const maxWidth = 640;
-    const minHeight = 400;
+    const minHeight = this.options.type === 'singlebar' ? 48 : 400;
+
     const width = node.clientWidth <= maxWidth ? node.clientWidth : maxWidth;
     const height = minHeight; // set a fixed height
 

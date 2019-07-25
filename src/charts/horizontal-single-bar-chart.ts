@@ -1,31 +1,41 @@
 import { sum } from 'd3-array';
 import { transition } from 'd3-transition';
 
-import { createBaseChart } from './base-chart';
+import { BaseChart } from './base-chart';
 
-class HorizontalSingleBarChart {
+import { ChartType, SingleBarChartOptions } from './config';
+
+export class HorizontalSingleBarChart extends BaseChart {
+  options: SingleBarChartOptions;
+
   constructor(selector, options) {
-    const { svg, data, colorScale, height } = createBaseChart(selector, {
-      ...options,
-      margin: {
-        left: 0,
-        top: 0,
-        right: 0
-      },
-      height: 32
-    });
+    super(selector, options);
 
-    const total = sum(data);
+    this.options.type = ChartType.SINGELBAR;
+  }
 
-    const bar = svg
-      .selectAll('.bargroup')
-      .data(data)
+  initialDraw() {
+    this.setSVG();
+
+    this.draw();
+  }
+
+  draw() {
+    const total = sum(this.displayData.datasets, d => sum(d.data));
+
+    const { height } = this.getChartSize();
+
+    const bar = this.innerWrap
+      .selectAll('g.bargroup')
+      .data(this.displayData.datasets)
       .enter()
-      .append('g');
+      .append('g')
+      .attr('class', 'bargroup');
+
+    let percSoFar = 0;
 
     const getPercent = d => (d / total) * 100;
 
-    let percSoFar = 0;
     const getBarWidth = d => {
       const prevPerc = percSoFar;
       const thisPerc = getPercent(d);
@@ -34,13 +44,16 @@ class HorizontalSingleBarChart {
     };
 
     bar
+      .datum(d => d.data)
       .append('rect')
       .attr('height', height)
       .attr('x', getBarWidth)
-      .attr('fill', (d, i) => colorScale(i))
+      .attr('fill', (d, i) => this.getFillColor(i))
       .attr('width', d => getPercent(d) + '%');
 
     percSoFar = 0;
+
+    // add percentage labels
     bar
       .append('text')
       .attr('x', getBarWidth)
@@ -48,5 +61,3 @@ class HorizontalSingleBarChart {
       .text(d => Math.floor(getPercent(d)) + '%');
   }
 }
-
-export default HorizontalSingleBarChart;

@@ -22,7 +22,7 @@ export interface MarginOption {
 }
 
 export interface ChartData {
-  labels: Array<string>;
+  labels?: Array<string>;
   datasets: Array<DataSet>;
 }
 
@@ -38,12 +38,10 @@ export interface BaseChartOptions {
 }
 
 export interface AxisChartOptions extends BaseChartOptions {
-  xLabel?: String;
-  yLabel?: String;
+  xLabel?: string;
+  yLabel?: string;
   xTickFormat?: Function;
   yTickFormat?: Function;
-  xPadding?: Number;
-  yPadding?: Number;
 }
 
 export interface ScatterChartOptions extends AxisChartOptions {}
@@ -51,6 +49,10 @@ export interface ScatterChartOptions extends AxisChartOptions {}
 export interface SingleBarChartOptions extends BaseChartOptions {}
 
 export interface HorizontalBarChartOptions extends AxisChartOptions {}
+
+export interface PieChartOptions extends BaseChartOptions {
+  donut?: boolean;
+}
 
 const colorMap = {
   navy: '#0d395f',
@@ -86,9 +88,7 @@ const baseOptions: BaseChartOptions = {
 };
 
 const axisOptions: AxisChartOptions = {
-  ...baseOptions,
-  xPadding: 8,
-  yPadding: 8
+  ...baseOptions
 };
 
 export const options = {

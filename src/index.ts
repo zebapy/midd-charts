@@ -150,35 +150,25 @@ const multilinechart = new LineChart('#midd-multilinechart', {
   xLabel: 'Years'
 });
 
-// // TODO: allow single number for data
+// TODO: allow single number for data
 // const xsinglebar = new HorizontalSingleBarChart('#midd-xsinglebarchart', {
-//   data: [
-//     { label: 'lorem medium length', data: [134] },
-//     { label: 'ipsum a longer legend title', data: [80] },
-//     { label: 'dolor', data: [24] }
-//   ]
+//   data: {
+//     labels: ['lorem', 'ipsum', 'dolor'],
+//     datasets: [{ label: 'dataset 1', data: [134, 80, 24] }]
+//   }
 // });
 
-// const piechart = new PieChart('#midd-pie', {
-//   data: [
-//     { label: 'lorem medium length', data: [134] },
-//     { label: 'ipsum a longer legend title', data: [80] },
-//     { label: 'dolor', data: [24] }
-//   ]
-// });
+const piechart = new PieChart('#midd-pie', {
+  data: {
+    labels: ['lorem', 'ipsum', 'dolor', 'eggs'],
+    datasets: [{ label: 'dataset 1', data: [134, 14, 24, 52] }]
+  }
+});
 
-// const donutChart = new PieChart('#midd-donut', {
-//   data: [
-//     { label: 'lorem medium length', data: [134] },
-//     { label: 'ipsum a longer legend title', data: [80] },
-//     { label: 'dolor', data: [24] },
-//     { label: 'dolor', data: [24] },
-//     { label: 'ipsum', data: [29] },
-//     { label: 'dolor', data: [24] },
-//     { label: 'set', data: [28] },
-//     { label: 'dolor', data: [24] },
-//     { label: 'dolor', data: [31] },
-//     { label: 'dolor', data: [41] }
-//   ],
-//   donut: true
-// });
+const donutChart = new PieChart('#midd-donut', {
+  donut: true,
+  data: {
+    labels: ['lorem', 'ipsum', 'dolor', 'set', 'bacon'],
+    datasets: [{ label: 'dataset 1', data: [134, 234, 282, 522, 563] }]
+  }
+});

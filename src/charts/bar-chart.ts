@@ -1,4 +1,3 @@
-import { select } from 'd3-selection';
 import { scaleBand, ScaleBand } from 'd3-scale';
 
 import { BaseAxisChart } from './base-axis-chart';
@@ -18,7 +17,7 @@ export class BarChart extends BaseAxisChart {
   draw() {
     // this.innerWrap.style('width', '100%').style('height', '100%');
 
-    const { innerWidth, innerHeight, height } = this.getChartSize();
+    const { height } = this.getChartSize();
 
     // create the inner wrap to hold the bars
     const gBars = this.innerWrap
